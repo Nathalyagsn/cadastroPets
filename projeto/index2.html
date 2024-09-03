@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Pets</title>
+    <title>Marcar Pet como Adotado</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,83 +50,87 @@
             background-color: #1976D2;
         }
         button {
-            background-color: #f44336;
+            background-color: #4CAF50;
             border: none;
             cursor: pointer;
         }
         button:hover {
-            background-color: #e53935;
+            background-color: #388E3C;
         }
-        .button-group {
-            margin-top: 20px;
+        .adopted-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 4px;
         }
-        .checkbox {
-            text-align: center;
+        .adopted-btn:hover {
+            background-color: #388E3C;
         }
     </style>
 </head>
 <body>
-    <h1>Lista de Pets Cadastrados</h1>
+    <h1>Disponíveis para adoção</h1>
     <table id="petsTable">
         <thead>
             <tr>
-                <th>Selecionar</th>
                 <th>Nome do Pet</th>
                 <th>Espécie</th>
                 <th>Raça</th>
                 <th>Idade (anos)</th>
                 <th>Observações</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Dados dos pets serão inseridos aqui -->
+            
         </tbody>
     </table>
 
-    <a href="index.html">Voltar para cadastro</a>
-    <div class="button-group">
-        <button onclick="clearData()">Limpar Todos os Dados</button>
-        <button onclick="deleteSelected()">Deletar Selecionados</button>
-    </div>
+    <a href="index.html">Voltar para a lista de cadastro</a>
 
     <script>
         window.onload = function() {
+            updatePetList();
+        }
+
+        function updatePetList() {
             const pets = JSON.parse(localStorage.getItem('pets')) || [];
             const tableBody = document.querySelector('#petsTable tbody');
+            tableBody.innerHTML = '';
 
             pets.forEach((pet, index) => {
                 const row = document.createElement('tr');
                 
                 row.innerHTML = `
-                    <td class="checkbox"><input type="checkbox" data-index="${index}"></td>
                     <td>${pet.petName}</td>
                     <td>${pet.species}</td>
                     <td>${pet.breed}</td>
                     <td>${pet.age}</td>
                     <td>${pet.observations}</td>
+                    <td><button class="adopted-btn" onclick="markAsAdopted(${index})">Marcar Como Adotado</button></td>
                 `;
 
                 tableBody.appendChild(row);
             });
         }
 
-        function clearData() {
-            localStorage.removeItem('pets');
-            alert('Todos os dados foram limpos!');
-            document.querySelector('#petsTable tbody').innerHTML = '';
-        }
-
-        function deleteSelected() {
-            const checkboxes = document.querySelectorAll('#petsTable tbody input[type="checkbox"]:checked');
-            const indicesToDelete = Array.from(checkboxes).map(cb => parseInt(cb.getAttribute('data-index')));
-            
+        function markAsAdopted(index) {
             let pets = JSON.parse(localStorage.getItem('pets')) || [];
-            pets = pets.filter((_, index) => !indicesToDelete.includes(index));
-            
-            localStorage.setItem('pets', JSON.stringify(pets));
-            alert('Pets selecionados foram deletados!');
-            document.querySelector('#petsTable tbody').innerHTML = '';
-            window.onload(); // Recarrega os dados atualizados
+            let adoptedPets = JSON.parse(localStorage.getItem('adoptedPets')) || [];
+
+            if (pets[index]) {
+                adoptedPets.push(pets[index]);
+                pets.splice(index, 1);
+
+                localStorage.setItem('pets', JSON.stringify(pets));
+                localStorage.setItem('adoptedPets', JSON.stringify(adoptedPets));
+
+                alert('Pet marcado como adotado!');
+                updatePetList(); // Atualiza a lista na página
+            }
         }
     </script>
 </body>
