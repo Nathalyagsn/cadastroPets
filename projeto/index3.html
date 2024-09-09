@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Pets</title>
+    <title>Lista de Pets Adotados</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,12 +50,12 @@
             background-color: #1976D2;
         }
         button {
-            background-color: #4CAF50;
+            background-color: #f44336;
             border: none;
             cursor: pointer;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #e53935;
         }
         .button-group {
             margin-top: 20px;
@@ -63,8 +63,8 @@
     </style>
 </head>
 <body>
-    <h1>Lista de Pets Cadastrados</h1>
-    <table id="petsTable">
+    <h1>Lista de Pets Adotados</h1>
+    <table id="adoptedPetsTable">
         <thead>
             <tr>
                 <th>Nome do Pet</th>
@@ -72,23 +72,25 @@
                 <th>Raça</th>
                 <th>Idade (anos)</th>
                 <th>Observações</th>
-                <th>Ações</th> <!-- Coluna de ações -->
             </tr>
         </thead>
         <tbody>
-            <!-- Dados dos pets serão inseridos aqui -->
+            <!-- Dados dos pets adotados serão inseridos aqui -->
         </tbody>
     </table>
 
-    <a href="index.html">Voltar para cadastro</a>
-    <a href="index3.html">Ver Pets Adotados</a>
+    <a href="index2.html">Voltar para a lista de pets</a>
+
+    <div class="button-group">
+        <button onclick="clearAdoptedData()">Limpar Dados dos Pets Adotados</button>
+    </div>
 
     <script>
         window.onload = function() {
-            const pets = JSON.parse(localStorage.getItem('pets')) || [];
-            const tableBody = document.querySelector('#petsTable tbody');
+            const adoptedPets = JSON.parse(localStorage.getItem('adoptedPets')) || [];
+            const tableBody = document.querySelector('#adoptedPetsTable tbody');
 
-            pets.forEach((pet, index) => {
+            adoptedPets.forEach((pet) => {
                 const row = document.createElement('tr');
                 
                 row.innerHTML = `
@@ -97,28 +99,16 @@
                     <td>${pet.breed}</td>
                     <td>${pet.age}</td>
                     <td>${pet.observations}</td>
-                    <td><button onclick="markAsAdopted(${index})">Marcar como Adotado</button></td>
                 `;
 
                 tableBody.appendChild(row);
             });
         }
 
-        function markAsAdopted(index) {
-            const pets = JSON.parse(localStorage.getItem('pets')) || [];
-            const adoptedPets = JSON.parse(localStorage.getItem('adoptedPets')) || [];
-
-            // Move o pet para a lista de adotados
-            const adoptedPet = pets.splice(index, 1)[0];
-            adoptedPets.push(adoptedPet);
-
-            // Atualiza o localStorage
-            localStorage.setItem('pets', JSON.stringify(pets));
-            localStorage.setItem('adoptedPets', JSON.stringify(adoptedPets));
-
-            // Atualiza a tabela
-            document.querySelector('#petsTable tbody').innerHTML = '';
-            window.onload(); // Recarrega os dados atualizados
+        function clearAdoptedData() {
+            localStorage.removeItem('adoptedPets');
+            alert('Todos os dados de pets adotados foram limpos!');
+            document.querySelector('#adoptedPetsTable tbody').innerHTML = '';
         }
     </script>
 </body>
