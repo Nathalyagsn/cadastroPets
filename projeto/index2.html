@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon/favicon (2).ico" type="image/x-icon">
     <title>Lista de Pets</title>
     <style>
         body {
@@ -72,7 +73,7 @@
                 <th>Raça</th>
                 <th>Idade (anos)</th>
                 <th>Observações</th>
-                <th>Ações</th> <!-- Coluna de ações -->
+                <th>Ações</th> <!-- Coluna -->
             </tr>
         </thead>
         <tbody>
@@ -108,17 +109,17 @@
             const pets = JSON.parse(localStorage.getItem('pets')) || [];
             const adoptedPets = JSON.parse(localStorage.getItem('adoptedPets')) || [];
 
-            // Move o pet para a lista de adotados
+            // movendo para a lista de adotados
             const adoptedPet = pets.splice(index, 1)[0];
             adoptedPets.push(adoptedPet);
 
-            // Atualiza o localStorage
+            // atualiza o localStorage
             localStorage.setItem('pets', JSON.stringify(pets));
             localStorage.setItem('adoptedPets', JSON.stringify(adoptedPets));
 
-            // Atualiza a tabela
+            // atualiza a tabela
             document.querySelector('#petsTable tbody').innerHTML = '';
-            window.onload(); // Recarrega os dados atualizados
+            window.onload(); // recarrega os dados atualizados
         }
     </script>
 </body>
