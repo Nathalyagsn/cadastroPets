@@ -90,7 +90,7 @@
                 <option value="Coelho">Coelho</option>
                 <option value="Peixe">Peixe</option>
                 <option value="Réptil">Réptil</option>
-                <!-- Adicione outras opções conforme necessário -->
+                
             </select>
             
             <label for="breed">Raça:</label>
@@ -121,7 +121,7 @@
                 pets.push({ petName, species, breed, age, observations });
                 localStorage.setItem('pets', JSON.stringify(pets));
 
-                // Clear form fields
+                // limpa os campos
                 document.getElementById('petForm').reset();
 
                 alert('Pet cadastrado com sucesso!');
