@@ -2,7 +2,7 @@ name: main
 
 on:
   push:
-    branches: [ '*' ]
+    branches: [ 'prd' ]
   pull_request:
     branches: [ '*' ]
     
@@ -24,5 +24,5 @@ build:
 
   docker:
     needs: build
-    uses: ./projeto/pipelines/workflows/Docker.yml
+    uses: ./pipelines/Docker.yml
     secrets: inherit
