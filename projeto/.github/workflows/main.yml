@@ -1,0 +1,28 @@
+name: main
+
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ '*' ]
+    
+build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      run: index build -v index.html
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v4.4.3
+      with: 
+      
+        name: programa 
+        path: main
+
+
+  docker:
+    needs: build
+    uses: ./.githubworkflows/Docker.yml
+    secrets: inherit
