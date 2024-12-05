@@ -19,7 +19,7 @@ jobs:
       with: 
       
         name: programa 
-        path: main
+        path: ./projeto
 
 
   docker:
